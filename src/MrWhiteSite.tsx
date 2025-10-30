@@ -111,9 +111,9 @@ export default function MrWhiteSite() {
         <a href="#home" className="inline-flex items-center gap-2" aria-label="Mr White — Kezdőlap">
           <img src={BASE_URL + "aa.svg"} alt="Mr White logó" className="h-[3.75rem] md:h-[4.375rem] w-auto block" loading="eager" decoding="async" />
         </a>
-<nav className="flex items-center gap-4 text-[14px] md:text-[15px]">
-  <a href="#gallery" className="text-white hover:opacity-80">Galéria</a>
-  <a href="#pricing" className="text-white hover:opacity-80">Árlista</a>
+<nav className="flex items-center gap-4 text-sm">
+  <a href="#gallery" className="text-white hover:opacity-80">Galéria</a> 
+  <a href="#pricing" className="text-white hover:opacity-80">Árlista</a> 
 </nav>
       </div>
     </header>
