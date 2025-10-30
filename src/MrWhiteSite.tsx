@@ -112,7 +112,7 @@ export default function MrWhiteSite() {
           <img src={BASE_URL + "aa.svg"} alt="Mr White logó" className="h-[3.75rem] md:h-[4.375rem] w-auto block" loading="eager" decoding="async" />
         </a>
 <nav
-  className="flex items-center gap-8 text-[12px] md:text-[14px]"
+  className="flex items-center gap-8 text-[12px] md:text-[14px] mr-2 md:mr-6"
   style={{
     fontFamily: "'Aboreto', serif",
     textTransform: "uppercase",
@@ -127,6 +127,7 @@ export default function MrWhiteSite() {
     Árlista
   </a>
 </nav>
+
       </div>
     </header>
   ), []);
