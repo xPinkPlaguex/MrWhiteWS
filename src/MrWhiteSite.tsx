@@ -110,9 +110,8 @@ export default function MrWhiteSite() {
       <div className="mx-auto max-w-6xl px-4 py-4 md:py-5 flex items-center justify-between">
         <a href="#home" className="inline-flex items-center gap-2" aria-label="Mr White — Kezdőlap">
           <img src={BASE_URL + "aa.svg"} alt="Mr White logó" className="h-[3.75rem] md:h-[4.375rem] w-auto block" loading="eager" decoding="async" />
-        </a>
 <nav
-  className="flex items-center gap-8 text-[12px] md:text-[14px] ml-auto mr-[80px]"
+  className="flex items-center gap-8 text-[12px] md:text-[14px] ml-auto mr-[-40px]"
   style={{
     fontFamily: "'Aboreto', serif",
     textTransform: "uppercase",
