@@ -112,14 +112,14 @@ export default function MrWhiteSite() {
           <img src={BASE_URL + "aa.svg"} alt="Mr White logó" className="h-[3.75rem] md:h-[4.375rem] w-auto block" loading="eager" decoding="async" />
         </a>
 <nav
-  className="flex items-center gap-4 text-sm"
+  className="flex items-center gap-4 text-[15px] md:text-[17px] tracking-widest"
   style={{
     fontFamily: "'Aboreto', serif",
-    letterSpacing: "0.03em",
+    textTransform: "uppercase",
   }}
 >
-  <a href="#gallery" className="text-white hover:opacity-80 transition-colors">Galéria</a>
-  <a href="#pricing" className="text-white hover:opacity-80 transition-colors">Árlista</a>
+  <a href="#gallery" className="text-white hover:opacity-80">Galéria</a>
+  <a href="#pricing" className="text-white hover:opacity-80">Árlista</a>
 </nav>
       </div>
     </header>
