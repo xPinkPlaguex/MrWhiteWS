@@ -96,44 +96,47 @@ export default function MrWhiteSite() {
   useEffect(() => { document.title = "Mr. White - renoválás"; }, []);
 
   const Nav = useMemo(() => (
-    <header
-      className="sticky top-0 z-50 border-b"
-      style={{
-        backgroundColor: "#E1DED2",
-        backgroundImage: `url("${BASE_URL}nav-left.webp")`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "right bottom",
-        backgroundSize: "auto 100%",
-        minHeight: "120px",
-      }}
-    >
-      <div className="mx-auto max-w-6xl px-4 py-4 md:py-5 flex items-center justify-between">
-        <a href="#home" className="inline-flex items-center gap-2" aria-label="Mr White — Kezdőlap">
-          <img src={BASE_URL + "aa.svg"} alt="Mr White logó" className="h-[3.75rem] md:h-[4.375rem] w-auto block" loading="eager" decoding="async" />
-<nav className="flex items-center gap-4 text-sm">
-  <a href="#gallery" className="text-white hover:opacity-80">Galéria</a>
-  <a href="#pricing" className="text-white hover:opacity-80">Árlista</a>
-</nav>
-  return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900">
-      {Nav}
-      {route === "#home" && <HomeHero />}
-      {route === "#gallery" && <GalleryPage />}
-      {route === "#pricing" && <PricingPage />}
+  <header
+    className="sticky top-0 z-50 border-b"
+    style={{
+      backgroundColor: "#E1DED2",
+      backgroundImage: `url("${BASE_URL}nav-left.webp")`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "right bottom",
+      backgroundSize: "auto 100%",
+      minHeight: "120px",
+    }}
+  >
+    <div className="mx-auto max-w-6xl px-4 py-4 md:py-5 flex items-center justify-between">
+      <a href="#home" className="inline-flex items-center gap-2" aria-label="Mr White — Kezdőlap">
+        <img
+          src={BASE_URL + "aa.svg"}
+          alt="Mr White logó"
+          className="h-[3.75rem] md:h-[4.375rem] w-auto block"
+          loading="eager"
+          decoding="async"
+        />
+      </a> {/* EZ hiányzott! 👈 */}
 
-      {route !== "#home" && (
-        <footer className="border-t bg-zinc-50">
-          <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-zinc-600 flex flex-col md:flex-row items-center justify-between gap-3">
-            <div>© {new Date().getFullYear()} {COMPANY_NAME}</div>
-            <div className="flex items-center gap-4">
-              <a href="#home" className="hover:text-zinc-900">Vissza a főoldalra</a>
-            </div>
-          </div>
-        </footer>
-      )}
+      <nav
+        className="flex items-center gap-8 text-[12px] md:text-[14px] ml-auto mr-[-40px]"
+        style={{
+          fontFamily: "'Aboreto', serif",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+          fontWeight: "400",
+        }}
+      >
+        <a href="#gallery" className="text-white hover:opacity-80 transition-opacity duration-200">
+          Galéria
+        </a>
+        <a href="#pricing" className="text-white hover:opacity-80 transition-opacity duration-200">
+          Árlista
+        </a>
+      </nav>
     </div>
-  );
-}
+  </header>
+), []);
 
 // Kezdőlap
 function HomeHero() {
