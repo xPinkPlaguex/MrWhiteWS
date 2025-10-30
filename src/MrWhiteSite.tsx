@@ -95,7 +95,7 @@ export default function MrWhiteSite() {
 
   useEffect(() => { document.title = "Mr. White - renoválás"; }, []);
 
-  const Nav = useMemo(() => (
+ const Nav = useMemo(() => (
   <header
     className="sticky top-0 z-50 border-b"
     style={{
@@ -116,10 +116,10 @@ export default function MrWhiteSite() {
           loading="eager"
           decoding="async"
         />
-      </a> {/* EZ hiányzott! 👈 */}
+      </a>
 
       <nav
-        className="flex items-center gap-8 text-[12px] md:text-[14px] ml-auto mr-[-40px]"
+        className="flex items-center gap-8 text-[12px] md:text-[14px] ml-auto mr-[40px]"
         style={{
           fontFamily: "'Aboreto', serif",
           textTransform: "uppercase",
