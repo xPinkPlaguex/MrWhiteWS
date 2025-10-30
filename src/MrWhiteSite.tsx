@@ -126,8 +126,6 @@ export default function MrWhiteSite() {
     Árlista
   </a>
 </nav>
-
-
       </div>
     </header>
   ), []);
