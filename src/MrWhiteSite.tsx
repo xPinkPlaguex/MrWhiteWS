@@ -82,7 +82,11 @@ const style = document.createElement("style");
 style.textContent = `
   body{font-family: Arial, Helvetica, sans-serif;}
   h1,h2,h3,.heading{font-family:'Aboreto', serif;}
-  main#gallery, main#pricing { font-family:'Aboreto', serif; }
+  main#gallery, main#pricing {
+    font-family:'Aboreto', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
   .no-scrollbar::-webkit-scrollbar{display:none;}
   .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
 `;
