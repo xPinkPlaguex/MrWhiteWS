@@ -78,10 +78,11 @@ export default function MrWhiteSite() {
     link.href = "https://fonts.googleapis.com/css2?family=Aboreto&display=swap";
     document.head.appendChild(link);
 
-    const style = document.createElement("style");
- style.textContent = `
+const style = document.createElement("style");
+style.textContent = `
   body{font-family: Arial, Helvetica, sans-serif;}
   h1,h2,h3,.heading{font-family:'Aboreto', serif;}
+  main#gallery, main#pricing { font-family:'Aboreto', serif; }
   .no-scrollbar::-webkit-scrollbar{display:none;}
   .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
 `;
