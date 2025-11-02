@@ -145,7 +145,7 @@ function HomeHero() {
   return (
     <section id="home" className="relative h-[calc(100vh-120px)] overflow-auto md:overflow-hidden">
       <div className="relative mx-auto max-w-6xl px-4 py-6 md:py-10 flex flex-col h-full justify-between">
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">Mr White renoválás</h1>
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">Mr. White renoválás</h1>
         <p className="mt-3 max-w-2xl text-base md:text-xl text-zinc-700">
           Közel 30 éves tapasztalattal rendelkezünk, melyből több mint egy évtizednyi Németország és Skandinávia területéről származik. Küldetésünk, hogy az ott tanult szemléletet hozzuk Magyarország szívébe, Budapestre és környékére.
         </p>
