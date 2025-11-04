@@ -160,6 +160,10 @@ export default function MrWhiteSite() {
   h1,h2,h3,.heading{font-family:'Aboreto', serif;}
   .no-scrollbar::-webkit-scrollbar{display:none;}
   .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
+
+  /* Fókuszgyűrű eltüntetése kattintás után */
+  *:focus { outline: none !important; box-shadow: none !important; }
+  button:focus, a:focus { outline: none !important; box-shadow: none !important; }
 `;
     document.head.appendChild(style);
 
