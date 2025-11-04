@@ -219,7 +219,7 @@ export default function MrWhiteSite() {
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
-      {Nav}
+      <NavBar />
 
       {route === "#home" && <HomeHero />}
       {route === "#gallery" && <GalleryPage />}
