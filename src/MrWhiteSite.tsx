@@ -468,52 +468,48 @@ function GalleryPage() {
 
 function MiniCard({ title, desc, img, link }: { title: string; desc: string; img?: string; link?: string }) {
   const Inner = (
-    <div
-      className="rounded-xl border p-3 md:p-4 w-full h-auto"
-      lang="hu"
-      style={{ backgroundColor: BEIGE }}
-    >
-      {/* Belső grid: ikon, cím, leírás + alul automatikus tartalék hely (soron belül egységes) */}
-      <div className="grid grid-rows-[auto_auto_auto] gap-1 h-full">
-        {/* Ikon – fix méret, azonos indulás minden kártyán */}
+    <div className="rounded-xl border p-3 md:p-4 w-full h-full" lang="hu" style={{ backgroundColor: BEIGE }}>
+      {/* Belső grid: ikon, cím, szöveg, és egy 1fr spacer, ami a maradék helyet az aljára tolja */}
+      <div className="grid grid-rows-[auto_auto_auto_1fr] gap-1 h-full">
+        {/* Ikon – fix méret, minden kártyán ugyanott indul */}
         {img && (
           <img
             src={BASE_URL + img}
             alt=""
-            className="h-7 w-7 md:h-8 md:w-8 block"
+            className="h-8 w-8 md:h-9 md:w-9 block"
             loading="lazy"
             decoding="async"
           />
         )}
 
-        {/* Cím – picit nagyobb, kulturált törés */}
+        {/* Cím – törés szóhatáron, azonos indulás */}
         <div
-          className="font-semibold leading-tight tracking-tight text-[clamp(13px,1.9vw,17px)] md:text-[clamp(15px,1.5vw,18px)] whitespace-normal break-words"
+          className="font-semibold leading-tight tracking-tight text-[clamp(12px,1.8vw,15px)] md:text-[clamp(14px,1.4vw,16px)] whitespace-normal break-words"
           style={{ hyphens: "auto" }}
         >
           {title}
         </div>
 
-        {/* Leírás – kicsit nagyobb, kényelmesebb sortáv */}
-        <p className="text-black leading-snug text-[clamp(12px,1.6vw,15px)] md:text-[clamp(13px,1.2vw,15px)]">
+        {/* Rövid leírás */}
+        <p className="text-black leading-snug text-[clamp(11px,1.6vw,14px)] md:text-[clamp(12px,1.2vw,14px)]">
           {desc}
         </p>
+
+        {/* Spacer – ez tolja le a „maradékot” az aljára, így a rövidebb kártyák alján lesz üres sáv */}
+        <div />
       </div>
     </div>
   );
 
   return link ? (
-    <a
-      href={link}
-      className="block focus:outline-none focus:ring-2 focus:ring-zinc-900"
-      aria-label={`${title} részletek`}
-    >
+    <a href={link} className="block h-full focus:outline-none focus:ring-2 focus:ring-zinc-900" aria-label={`${title} részletek`}>
       {Inner}
     </a>
   ) : (
     Inner
   );
 }
+
 
 function PriceRow({ title, desc, price }: { title: string; desc: string; price: string }) {
   const MIN_BEFORE_WRAP = 7;
