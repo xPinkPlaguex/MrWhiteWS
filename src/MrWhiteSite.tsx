@@ -171,53 +171,50 @@ export default function MrWhiteSite() {
 
   useEffect(() => { document.title = "Mr. White - renoválás"; }, []);
 
-   const Nav = useMemo(() => {
-    const [bgImage, setBgImage] = useState(`${BASE_URL}nav-left.webp`);
+  function NavBar() {
+  const [bgImage, setBgImage] = useState(`${BASE_URL}nav-left.webp`);
 
-    useEffect(() => {
-      const updateBg = () => {
-        if (window.matchMedia("(min-width: 768px)").matches) {
-          setBgImage(`${BASE_URL}nav-left-big.webp`);
-        } else {
-          setBgImage(`${BASE_URL}nav-left.webp`);
-        }
-      };
-
-      updateBg();
-      window.addEventListener("resize", updateBg);
-      return () => window.removeEventListener("resize", updateBg);
-    }, []);
-
-    return (
-      <header
-        className="sticky top-0 z-50 border-b"
-        style={{
-          backgroundColor: "#E1DED2",
-          backgroundImage: `url("${bgImage}")`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "right bottom",
-          backgroundSize: "auto 100%",
-          minHeight: "120px",
-        }}
-      >
-        <div className="mx-auto max-w-6xl px-4 py-4 md:py-5 flex items-center justify-between">
-          <a href="#home" className="inline-flex items-center gap-2" aria-label="Mr White — Kezdőlap">
-            <img
-              src={BASE_URL + "aa.svg"}
-              alt="Mr White logó"
-              className="h-[3.75rem] md:h-[4.375rem] w-auto block"
-              loading="eager"
-              decoding="async"
-            />
-          </a>
-          <nav className="flex items-center gap-4 text-sm font-[Aboreto] uppercase tracking-wide">
-            <a href="#gallery" className="text-white hover:opacity-80">Galéria</a>
-            <a href="#pricing" className="text-white hover:opacity-80">Árlista</a>
-          </nav>
-        </div>
-      </header>
-    );
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 768px)");
+    const update = () => {
+      setBgImage(`${BASE_URL}${mql.matches ? "nav-left-big.webp" : "nav-left.webp"}`);
+    };
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
   }, []);
+
+  return (
+    <header
+      className="sticky top-0 z-50 border-b"
+      style={{
+        backgroundColor: "#E1DED2",
+        backgroundImage: `url("${bgImage}")`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "right bottom",
+        backgroundSize: "auto 100%",
+        minHeight: "120px",
+      }}
+    >
+      <div className="mx-auto max-w-6xl px-4 py-4 md:py-5 flex items-center justify-between">
+        <a href="#home" className="inline-flex items-center gap-2" aria-label="Mr White — Kezdőlap">
+          <img
+            src={BASE_URL + "aa.svg"}
+            alt="Mr White logó"
+            className="h-[3.75rem] md:h-[4.375rem] w-auto block"
+            loading="eager"
+            decoding="async"
+          />
+        </a>
+        <nav className="flex items-center gap-4 text-sm font-[Aboreto] uppercase tracking-wide">
+          <a href="#gallery" className="text-white hover:opacity-80">Galéria</a>
+          <a href="#pricing" className="text-white hover:opacity-80">Árlista</a>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
 
 
   return (
