@@ -236,7 +236,8 @@ function HomeHero() {
 
         <div className="mt-6">
           <div className="text-sm uppercase tracking-widest text-zinc-500 mb-3">Vállalunk:</div>
-          <div className="grid grid-cols-2 gap-2 w-full min-w-0 items-stretch md:flex md:flex-nowrap md:gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 w-full items-stretch">
+
             <MiniCard title="Szobafestés" desc="Fal és mennyezet festés" img="icons/szobafestes.webp" link="#service/szobafestes" />
             <MiniCard title="Melegburkolás" desc="Laminált vagy vinyl lerakás" img="icons/melegburkolas.webp" link="#service/melegburkolas" />
             <MiniCard title="Gipszkartonozás" desc="Szerkezet, burkolás és gipszkarton dekor elemek" img="icons/gipszkartonozas.webp" link="#service/gipszkartonozas" />
@@ -467,9 +468,10 @@ function GalleryPage() {
 
 function MiniCard({ title, desc, img, link }: { title: string; desc: string; img?: string; link?: string }) {
   const Inner = (
-    <div className="rounded-xl border p-3 md:p-4 flex-1 min-w-0 h-auto" lang="hu" style={{ backgroundColor: BEIGE }}>
+    <div className="rounded-xl border p-3 md:p-4 w-full h-auto" lang="hu" style={{ backgroundColor: BEIGE }}>
       {img && <img src={BASE_URL + img} alt="" className="h-[2.025rem] w-[2.025rem] mb-1 block" loading="lazy" decoding="async" />}
-      <div className="font-semibold leading-tight tracking-tight text-[clamp(12px,1.8vw,15px)] md:text-[clamp(14px,1.4vw,16px)] whitespace-normal" style={{ hyphens: "auto" }}>
+      <div className="font-semibold leading-tight tracking-tight text-[clamp(12px,1.8vw,15px)] md:text-[clamp(14px,1.4vw,16px)] whitespace-normal break-words" style={{ hyphens: "auto" }}>
+
         {title}
       </div>
       <p className="mt-1 text-black leading-snug text-[clamp(11px,1.6vw,14px)] md:text-[clamp(12px,1.2vw,14px)]">{desc}</p>
