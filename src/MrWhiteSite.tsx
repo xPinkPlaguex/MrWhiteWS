@@ -229,37 +229,126 @@ function HomeHero() {
   return (
     <section id="home" className="relative h-[calc(100vh-120px)] overflow-auto md:overflow-hidden">
       <div className="relative mx-auto max-w-6xl px-4 py-6 md:py-10 flex flex-col h-full justify-between">
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">Mr. White renoválás</h1>
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
+          Mr. White renoválás
+        </h1>
+
         <p className="mt-3 max-w-2xl text-base md:text-xl text-zinc-700">
-          Közel 30 éves tapasztalattal rendelkezünk, melyből több mint egy évtizednyi Németország és Skandinávia területéről származik. Küldetésünk, hogy az ott tanult szemléletet hozzuk Magyarország szívébe, Budapestre és környékére.
+          Közel 30 éves tapasztalattal rendelkezünk, melyből több mint egy évtizednyi Németország
+          és Skandinávia területéről származik. Küldetésünk, hogy az ott tanult szemléletet hozzuk
+          Magyarország szívébe, Budapestre és környékére.
         </p>
 
         <div className="mt-6">
-              <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="px-2 py-2 md:px-4 md:py-2 rounded-xl border font-medium bg-white whitespace-nowrap">Instagram</a>
-              <a href={FACEBOOK_URL} target="_blank" rel="noreferrer" className="px-2 py-2 md:px-4 md:py-2 rounded-xl border font-medium bg-white whitespace-nowrap">Facebook</a>
-              <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noreferrer" className="px-2 py-2 md:px-4 md:py-2 rounded-xl border font-medium bg-white whitespace-nowrap">Google értékelés</a>
-              
-              {/* ÚJ: e-mail buborék másolás gombbal */}
-              <div className="inline-flex items-center gap-2 px-3 py-2 md:py-3 rounded-xl border bg-white">
-                <span className="font-medium whitespace-nowrap">festes.burkolat@gmail.com</span>
-                <button
-                  type="button"
-                  onClick={() => navigator.clipboard.writeText("festes.burkolat@gmail.com")}
-                  className="inline-flex items-center justify-center h-6 w-6 md:h-7 md:w-7 rounded border hover:bg-zinc-50"
-                  aria-label="E-mail másolása"
-                  title="E-mail másolása"
-                >
-                  {/* copy ikon (inline SVG) */}
-                  <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="9" y="9" width="10" height="12" rx="2" stroke="currentColor" strokeWidth="2"/>
-                    <rect x="5" y="3" width="10" height="12" rx="2" stroke="currentColor" strokeWidth="2" opacity="0.6"/>
-                  </svg>
-                </button>
-              </div>
-              
-              <span className="px-3 py-2 md:py-3 rounded-xl border font-medium bg-white whitespace-nowrap">{COMPANY_NAME}</span>
-              <a href={PHONE_LINK} className="px-2 py-2 md:px-4 md:py-2 rounded-xl bg-zinc-900 text-white font-medium whitespace-nowrap">Hívás: {PHONE_DISPLAY}</a>
+          <div className="text-sm uppercase tracking-widest text-zinc-500 mb-3">Vállalunk:</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 w-full items-stretch">
+            <MiniCard
+              title="Szobafestés"
+              desc="Fal és mennyezet festés"
+              img="icons/szobafestes.webp"
+              link="#service/szobafestes"
+            />
+            <MiniCard
+              title="Melegburkolás"
+              desc="Laminált vagy vinyl lerakás"
+              img="icons/melegburkolas.webp"
+              link="#service/melegburkolas"
+            />
+            <MiniCard
+              title="Gipszkartonozás"
+              desc="Szerkezet, burkolás és gipszkarton dekor elemek"
+              img="icons/gipszkartonozas.webp"
+              link="#service/gipszkartonozas"
+            />
+            <MiniCard
+              title="Parkettacsiszolás"
+              desc="Felújítás, lakkozás, olajozás"
+              img="icons/parkettacsiszolas.webp"
+              link="#service/parkettacsiszolas"
+            />
+          </div>
+        </div>
 
+        {/* Gombok / buborékok */}
+        <div className="mt-2 pb-3">
+          <div className="flex flex-wrap items-center gap-2 w-full text-xs sm:text-sm">
+            {/* minden buborék egységes magasságban */}
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center h-10 md:h-11 px-3 rounded-xl border font-medium bg-white whitespace-nowrap"
+            >
+              Instagram
+            </a>
+
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center h-10 md:h-11 px-3 rounded-xl border font-medium bg-white whitespace-nowrap"
+            >
+              Facebook
+            </a>
+
+            <a
+              href={GOOGLE_REVIEW_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center h-10 md:h-11 px-3 rounded-xl border font-medium bg-white whitespace-nowrap"
+            >
+              Google értékelés
+            </a>
+
+            {/* ÚJ: e-mail másoló gombbal */}
+            <div className="inline-flex items-center h-10 md:h-11 px-3 rounded-xl border font-medium bg-white">
+              <span className="whitespace-nowrap">festes.burkolat@gmail.com</span>
+              <button
+                type="button"
+                onClick={() => navigator.clipboard.writeText("festes.burkolat@gmail.com")}
+                className="ml-2 inline-flex items-center justify-center h-6 w-6 rounded border hover:bg-zinc-50"
+                aria-label="E-mail másolása"
+                title="E-mail másolása"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="9"
+                    y="9"
+                    width="10"
+                    height="12"
+                    rx="2"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <rect
+                    x="5"
+                    y="3"
+                    width="10"
+                    height="12"
+                    rx="2"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    opacity="0.6"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <span className="inline-flex items-center h-10 md:h-11 px-3 rounded-xl border font-medium bg-white whitespace-nowrap">
+              {COMPANY_NAME}
+            </span>
+
+            <a
+              href={PHONE_LINK}
+              className="inline-flex items-center h-10 md:h-11 px-3 rounded-xl bg-zinc-900 text-white font-medium whitespace-nowrap"
+            >
+              Hívás: {PHONE_DISPLAY}
+            </a>
           </div>
         </div>
       </div>
