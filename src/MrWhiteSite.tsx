@@ -468,7 +468,8 @@ function GalleryPage() {
 
 function MiniCard({ title, desc, img, link }: { title: string; desc: string; img?: string; link?: string }) {
   const Inner = (
-    <div className="rounded-xl border p-3 md:p-4 w-full h-auto" lang="hu" style={{ backgroundColor: BEIGE }}>
+   <div className="rounded-xl border p-3 md:p-4 w-full h-auto min-h-[115px] md:min-h-[130px] flex flex-col justify-between" lang="hu" style={{ backgroundColor: BEIGE }}>
+
       {img && <img src={BASE_URL + img} alt="" className="h-[2.025rem] w-[2.025rem] mb-1 block" loading="lazy" decoding="async" />}
       <div className="font-semibold leading-tight tracking-tight text-[clamp(12px,1.8vw,15px)] md:text-[clamp(14px,1.4vw,16px)] whitespace-normal break-words" style={{ hyphens: "auto" }}>
 
