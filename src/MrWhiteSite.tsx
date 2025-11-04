@@ -469,51 +469,51 @@ function GalleryPage() {
 function MiniCard({ title, desc, img, link }: { title: string; desc: string; img?: string; link?: string }) {
   const Inner = (
     <div
-      className="rounded-xl border p-3 md:p-4 w-full h-[150px] md:h-[170px]"
+      className="rounded-xl border p-3 md:p-4 w-full h-auto"
       lang="hu"
       style={{ backgroundColor: BEIGE }}
     >
-      {/* Belső grid: ikon, cím, leírás, SPACER (az üres alsó sor) */}
-      <div className="grid grid-rows-[auto_auto_auto_1fr] gap-1 h-full">
-        {/* Ikon – fix méret, azonos indulás */}
+      {/* Belső grid: ikon, cím, leírás + alul automatikus tartalék hely (soron belül egységes) */}
+      <div className="grid grid-rows-[auto_auto_auto] gap-1 h-full">
+        {/* Ikon – fix méret, azonos indulás minden kártyán */}
         {img && (
           <img
             src={BASE_URL + img}
             alt=""
-            className="h-8 w-8 md:h-9 md:w-9 block"
+            className="h-7 w-7 md:h-8 md:w-8 block"
             loading="lazy"
             decoding="async"
           />
         )}
 
-        {/* Cím – törés szóhatáron, egységes indulás */}
+        {/* Cím – picit nagyobb, kulturált törés */}
         <div
-          className="font-semibold leading-tight tracking-tight text-[clamp(12px,1.8vw,15px)] md:text-[clamp(14px,1.4vw,16px)] whitespace-normal break-words"
+          className="font-semibold leading-tight tracking-tight text-[clamp(13px,1.9vw,17px)] md:text-[clamp(15px,1.5vw,18px)] whitespace-normal break-words"
           style={{ hyphens: "auto" }}
         >
           {title}
         </div>
 
-        {/* Leírás – normál törés; ha rövidebb, az alábbi spacer felveszi a maradék helyet */}
-        <p className="text-black leading-snug text-[clamp(11px,1.6vw,14px)] md:text-[clamp(12px,1.2vw,14px)]">
+        {/* Leírás – kicsit nagyobb, kényelmesebb sortáv */}
+        <p className="text-black leading-snug text-[clamp(12px,1.6vw,15px)] md:text-[clamp(13px,1.2vw,15px)]">
           {desc}
         </p>
-
-        {/* SPACER – ez biztosítja az egységes indulást és az üres alsó sort rövidebb szövegnél */}
-        <div />
       </div>
     </div>
   );
 
   return link ? (
-    <a href={link} className="block focus:outline-none focus:ring-2 focus:ring-zinc-900" aria-label={`${title} részletek`}>
+    <a
+      href={link}
+      className="block focus:outline-none focus:ring-2 focus:ring-zinc-900"
+      aria-label={`${title} részletek`}
+    >
       {Inner}
     </a>
   ) : (
     Inner
   );
 }
-
 
 function PriceRow({ title, desc, price }: { title: string; desc: string; price: string }) {
   const MIN_BEFORE_WRAP = 7;
