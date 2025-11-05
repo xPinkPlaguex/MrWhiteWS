@@ -280,7 +280,7 @@ export default function MrWhiteSite() {
   /* Bootstrap-szerű bezáró gomb (btn-close) – saját CSS, külső lib nélkül */
   .btn-close{ box-sizing: content-box; width:1em; height:1em; padding:.25em; border:0; border-radius:.5rem; background: transparent; opacity:.7;}
   .btn-close:hover{ opacity:1; background: rgba(255,255,255,.9); }
-  .btn-close::before{ content:"\00d7"; display:block; line-height:1; font-size:1.5rem; color:#111; }
+  .btn-close::before{ content:"×"; display:block; line-height:1; font-size:1.5rem; color:#111; }
 
   /* Kerek navigációs gombok a lightboxhoz – ugyanaz a vizuális család */
   .btn-circle{ width:2.25rem; height:2.25rem; border-radius:9999px; border:1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.95); display:flex; align-items:center; justify-content:center; font-size:1.25rem; }
