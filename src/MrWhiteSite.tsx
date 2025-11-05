@@ -769,61 +769,29 @@ function ServicePage({ route }: { route: string }) {
 }
 
 function ServiceStrip({ slug, count, title, onOpen }: { slug: ServiceSlug; count: number; title: string; onOpen: (i:number)=>void }) {
-  const id = `strip-${slug}`;
   return (
     <div className="relative">
       <h3 className="text-xl font-semibold mb-3">Munkáink</h3>
 
-      <div className="relative">
-        <div
-          className="flex gap-3 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory"
-          style={{ scrollBehavior: "smooth" }}
-          id={id}
-        >
-          {Array.from({ length: count }).map((_, i) => (
-            <div key={i} className="snap-start shrink-0 w-[320px]">
-              <button
-                type="button"
-                className="relative aspect-[4/3] rounded-xl border bg-white overflow-hidden w-full"
-                onClick={() => onOpen(i)}
-                aria-label={`${title} ${i + 1} megnyitása`}
-              >
-                <img
-                  src={serviceImagePath(slug, i + 1)}
-                  alt={`${title} ${i + 1}`}
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 w-full h-full object-cover object-center"
-                />
-              </button>
-            </div>
-          ))}
-        </div>
-
-        {/* nyilak */}
-        <button
-          type="button"
-          aria-label="Előző képek"
-          className="hidden md:flex items-center justify-center absolute left-0 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/90 border shadow"
-          onClick={() => {
-            document.getElementById(id)?.scrollBy({ left: -360, behavior: "smooth" });
-          }}
-          title="Előző"
-        >
-          ◀
-        </button>
-
-        <button
-          type="button"
-          aria-label="Következő képek"
-          className="hidden md:flex items-center justify-center absolute right-0 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/90 border shadow"
-          onClick={() => {
-            document.getElementById(id)?.scrollBy({ left: 360, behavior: "smooth" });
-          }}
-          title="Következő"
-        >
-          ▶
-        </button>
+      {/* Rács: mobilon 1 oszlop, kis képernyőn 2, közepestől 3; 4:3 arány, gombként kattintható */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        {Array.from({ length: count }).map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            className="relative aspect-[4/3] rounded-xl border bg-white overflow-hidden w-full"
+            onClick={() => onOpen(i)}
+            aria-label={`${title} ${i + 1} megnyitása`}
+          >
+            <img
+              src={serviceImagePath(slug, i + 1)}
+              alt={`${title} ${i + 1}`}
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+          </button>
+        ))}
       </div>
     </div>
   );
