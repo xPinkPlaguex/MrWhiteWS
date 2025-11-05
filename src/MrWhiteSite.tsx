@@ -124,6 +124,118 @@ function serviceImagePath(slug: string, idx: number) {
 }
 
 /* =========================
+   KÖZÖS LIGHTBOX KOMPONENS
+   ========================= */
+
+type LightboxItem = { src: string; alt?: string };
+
+function Lightbox({
+  items,
+  index,
+  onClose,
+  setIndex,
+}: {
+  items: LightboxItem[];
+  index: number;
+  onClose: () => void;
+  setIndex: (i: number) => void;
+}) {
+  const safeIndex = (i: number) => (i + items.length) % items.length;
+  const goPrev = () => setIndex(safeIndex(index - 1));
+  const goNext = () => setIndex(safeIndex(index + 1));
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [index, items.length]);
+
+  if (!items.length) return null;
+
+  const current = items[safeIndex(index)];
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 z-[60] bg-black/70 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      {/* Bal/Jobb kattintható zónák */}
+      <div
+        className="absolute left-0 top-0 h-full w-1/3 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          goPrev();
+        }}
+        aria-label="Előző"
+        title="Előző"
+      />
+      <div
+        className="absolute right-0 top-0 h-full w-1/3 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          goNext();
+        }}
+        aria-label="Következő"
+        title="Következő"
+      />
+
+      {/* Kép */}
+      <img
+        src={current.src}
+        alt={current.alt || "Kép"}
+        className="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl select-none"
+        onClick={(e) => e.stopPropagation()}
+        draggable={false}
+      />
+
+      {/* Bal/jobb nyilak – a Close gombbal azonos stílus (kerek, minimal) */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          goPrev();
+        }}
+        className="btn-circle absolute left-4 top-1/2 -translate-y-1/2"
+        aria-label="Előző"
+        title="Előző"
+      >
+        ‹
+      </button>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          goNext();
+        }}
+        className="btn-circle absolute right-4 top-1/2 -translate-y-1/2"
+        aria-label="Következő"
+        title="Következő"
+      >
+        ›
+      </button>
+
+      {/* Bezárás – kérés szerint .btn-close markup */}
+      <button
+        type="button"
+        className="btn-close absolute top-4 right-4"
+        aria-label="Close"
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
+        title="Bezárás"
+      />
+    </div>
+  );
+}
+
+/* =========================
    FŐ KOMPONENS
    ========================= */
 
@@ -164,6 +276,15 @@ export default function MrWhiteSite() {
   /* Fókuszgyűrű eltüntetése kattintás után */
   *:focus { outline: none !important; box-shadow: none !important; }
   button:focus, a:focus { outline: none !important; box-shadow: none !important; }
+
+  /* Bootstrap-szerű bezáró gomb (btn-close) – saját CSS, külső lib nélkül */
+  .btn-close{ box-sizing: content-box; width:1em; height:1em; padding:.25em; border:0; border-radius:.5rem; background: transparent; opacity:.7;}
+  .btn-close:hover{ opacity:1; background: rgba(255,255,255,.9); }
+  .btn-close::before{ content:"\00d7"; display:block; line-height:1; font-size:1.5rem; color:#111; }
+
+  /* Kerek navigációs gombok a lightboxhoz – ugyanaz a vizuális család */
+  .btn-circle{ width:2.25rem; height:2.25rem; border-radius:9999px; border:1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.95); display:flex; align-items:center; justify-content:center; font-size:1.25rem; }
+  .btn-circle:hover{ background: #fff; }
 `;
     document.head.appendChild(style);
 
@@ -176,50 +297,48 @@ export default function MrWhiteSite() {
   useEffect(() => { document.title = "Mr. White - renoválás"; }, []);
 
   function NavBar() {
-  const [bgImage, setBgImage] = useState(`${BASE_URL}nav-left.webp`);
+    const [bgImage, setBgImage] = useState(`${BASE_URL}nav-left.webp`);
 
-  useEffect(() => {
-    const mql = window.matchMedia("(min-width: 768px)");
-    const update = () => {
-      setBgImage(`${BASE_URL}${mql.matches ? "nav-left-big.webp" : "nav-left.webp"}`);
-    };
-    update();
-    mql.addEventListener("change", update);
-    return () => mql.removeEventListener("change", update);
-  }, []);
+    useEffect(() => {
+      const mql = window.matchMedia("(min-width: 768px)");
+      const update = () => {
+        setBgImage(`${BASE_URL}${mql.matches ? "nav-left-big.webp" : "nav-left.webp"}`);
+      };
+      update();
+      mql.addEventListener("change", update);
+      return () => mql.removeEventListener("change", update);
+    }, []);
 
-  return (
-    <header
-      className="sticky top-0 z-50 border-b"
-      style={{
-        backgroundColor: "#E1DED2",
-        backgroundImage: `url("${bgImage}")`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "right bottom",
-        backgroundSize: "auto 100%",
-        minHeight: "120px",
-      }}
-    >
-      <div className="mx-auto max-w-6xl px-4 py-4 md:py-5 flex items-center justify-between">
-        <a href="#home" className="inline-flex items-center gap-2" aria-label="Mr White — Kezdőlap">
-          <img
-            src={BASE_URL + "aa.svg"}
-            alt="Mr White logó"
-            className="h-[3.75rem] md:h-[4.375rem] w-auto block"
-            loading="eager"
-            decoding="async"
-          />
-        </a>
-        <nav className="flex items-center gap-4 text-sm font-[Aboreto] uppercase tracking-wide">
-          <a href="#gallery" className="text-white hover:opacity-80">Galéria</a>
-          <a href="#pricing" className="text-white hover:opacity-80">Árlista</a>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-
+    return (
+      <header
+        className="sticky top-0 z-50 border-b"
+        style={{
+          backgroundColor: "#E1DED2",
+          backgroundImage: `url("${bgImage}")`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "right bottom",
+          backgroundSize: "auto 100%",
+          minHeight: "120px",
+        }}
+      >
+        <div className="mx-auto max-w-6xl px-4 py-4 md:py-5 flex items-center justify-between">
+          <a href="#home" className="inline-flex items-center gap-2" aria-label="Mr White — Kezdőlap">
+            <img
+              src={BASE_URL + "aa.svg"}
+              alt="Mr White logó"
+              className="h-[3.75rem] md:h-[4.375rem] w-auto block"
+              loading="eager"
+              decoding="async"
+            />
+          </a>
+          <nav className="flex items-center gap-4 text-sm font-[Aboreto] uppercase tracking-wide">
+            <a href="#gallery" className="text-white hover:opacity-80">Galéria</a>
+            <a href="#pricing" className="text-white hover:opacity-80">Árlista</a>
+          </nav>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
@@ -446,43 +565,16 @@ function GalleryPage() {
   const openLightbox = (projIdx: number, imgIdx: number) => setLightbox({ open: true, projIdx, imgIdx });
   const closeLightbox = () => setLightbox({ open: false, projIdx: -1, imgIdx: -1 });
 
-  // Aktuális kép forrása/alt a state alapján
-  const currentSrc = () => {
-    if (!lightbox.open) return "";
+  // Aktuális projekt képlista
+  const items: LightboxItem[] = React.useMemo(() => {
+    if (!lightbox.open) return [];
     const proj = PROJECTS[lightbox.projIdx];
     const files = numberFiles(proj.count);
-    const file = files[(lightbox.imgIdx + files.length) % files.length];
-    return galleryPath(proj.folder, file);
-    };
-  const currentAlt = () => {
-    if (!lightbox.open) return "";
-    const display = displayNameFromFolder(PROJECTS[lightbox.projIdx].folder);
-    return `${display} - ${lightbox.imgIdx + 1}`;
-  };
-
-  // Lapozás (körkörös)
-  const goNext = () => {
-    const proj = PROJECTS[lightbox.projIdx];
-    const len = numberFiles(proj.count).length;
-    setLightbox((s) => ({ ...s, imgIdx: (s.imgIdx + 1 + len) % len }));
-  };
-  const goPrev = () => {
-    const proj = PROJECTS[lightbox.projIdx];
-    const len = numberFiles(proj.count).length;
-    setLightbox((s) => ({ ...s, imgIdx: (s.imgIdx - 1 + len) % len }));
-  };
-
-  // Billentyűk: Esc bezár, nyilak lapoznak
-  useEffect(() => {
-    if (!lightbox.open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowRight") goNext();
-      if (e.key === "ArrowLeft") goPrev();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [lightbox.open]);
+    return files.map((file, i) => ({
+      src: galleryPath(proj.folder, file),
+      alt: `${displayNameFromFolder(proj.folder)} - ${i + 1}`,
+    }));
+  }, [lightbox]);
 
   return (
     <main id="gallery" className="bg-white">
@@ -527,63 +619,12 @@ function GalleryPage() {
       </div>
 
       {lightbox.open && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-[60] bg-black/70 flex items-center justify-center p-4"
-          onClick={closeLightbox}
-        >
-          {/* Bal/Jobb kattintható zónák */}
-          <div
-            className="absolute left-0 top-0 h-full w-1/3 cursor-pointer"
-            onClick={(e) => { e.stopPropagation(); goPrev(); }}
-            aria-label="Előző"
-            title="Előző"
-          />
-          <div
-            className="absolute right-0 top-0 h-full w-1/3 cursor-pointer"
-            onClick={(e) => { e.stopPropagation(); goNext(); }}
-            aria-label="Következő"
-            title="Következő"
-          />
-
-          {/* Kép */}
-          <img
-            src={currentSrc()}
-            alt={currentAlt()}
-            className="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl select-none"
-            onClick={(e) => e.stopPropagation()}
-            draggable={false}
-          />
-
-          {/* Bal/jobb nyilak */}
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); goPrev(); }}
-            className="absolute left-4 top-1/2 -translate-y-1/2 px-3 py-2 rounded-lg bg-white/90 text-zinc-900 text-sm font-medium shadow"
-            aria-label="Előző"
-          >
-            ◀
-          </button>
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); goNext(); }}
-            className="absolute right-4 top-1/2 -translate-y-1/2 px-3 py-2 rounded-lg bg-white/90 text-zinc-900 text-sm font-medium shadow"
-            aria-label="Következő"
-          >
-            ▶
-          </button>
-
-          {/* Bezárás */}
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
-            className="absolute top-4 right-4 px-3 py-1.5 rounded-lg bg-white text-zinc-900 text-sm font-medium"
-            aria-label="Bezárás"
-          >
-            Bezárás
-          </button>
-        </div>
+        <Lightbox
+          items={items}
+          index={lightbox.imgIdx}
+          onClose={closeLightbox}
+          setIndex={(i) => setLightbox((s) => ({ ...s, imgIdx: i }))}
+        />
       )}
     </main>
   );
@@ -633,7 +674,6 @@ function MiniCard({ title, desc, img, link }: { title: string; desc: string; img
   );
 }
 
-
 function PriceRow({ title, desc, price }: { title: string; desc: string; price: string }) {
   const MIN_BEFORE_WRAP = 7;
   const withSoftBreak = price.replace("–", "–\u200B");
@@ -651,11 +691,16 @@ function PriceRow({ title, desc, price }: { title: string; desc: string; price: 
   );
 }
 
-// ÚJ: Szolgáltatás oldal komponens
+// ÚJ: Szolgáltatás oldal komponens – kibővítve, hogy a strip képeire kattintva is lightbox nyíljon
 function ServicePage({ route }: { route: string }) {
   const service = useMemo(() => parseServiceFromHash(route), [route]);
 
   useEffect(() => { window.scrollTo(0, 0); }, [route]);
+
+  // Lightbox a szolgáltatás képeire
+  const [idx, setIdx] = useState<number>(-1); // -1 = zárva
+  const openAt = (i: number) => setIdx(i);
+  const close = () => setIdx(-1);
 
   if (!service) {
     return (
@@ -667,6 +712,11 @@ function ServicePage({ route }: { route: string }) {
       </main>
     );
   }
+
+  const stripItems: LightboxItem[] = Array.from({ length: service.images.count }).map((_, i) => ({
+    src: serviceImagePath(service.slug, i + 1),
+    alt: `${service.title} ${i + 1}`,
+  }));
 
   return (
     <section className="relative min-h-[calc(100vh-120px)] bg-white flex flex-col">
@@ -697,8 +747,8 @@ function ServicePage({ route }: { route: string }) {
           </table>
         </div>
 
-        {/* 3. Képsor egy sorban, minimalista oldalsó nyilakkal */}
-        <ServiceStrip slug={service.slug} count={service.images.count} title={service.title} />
+        {/* 3. Képsor egy sorban, minimal oldalsó nyilakkal + kattintás = lightbox */}
+        <ServiceStrip slug={service.slug} count={service.images.count} title={service.title} onOpen={openAt} />
       </div>
 
       {/* Alsó CTA, egységes a többi oldallal */}
@@ -710,11 +760,15 @@ function ServicePage({ route }: { route: string }) {
           </a>
         </div>
       </div>
+
+      {idx >= 0 && (
+        <Lightbox items={stripItems} index={idx} onClose={close} setIndex={setIdx} />
+      )}
     </section>
   );
 }
 
-function ServiceStrip({ slug, count, title }: { slug: ServiceSlug; count: number; title: string }) {
+function ServiceStrip({ slug, count, title, onOpen }: { slug: ServiceSlug; count: number; title: string; onOpen: (i:number)=>void }) {
   const id = `strip-${slug}`;
   return (
     <div className="relative">
@@ -728,7 +782,12 @@ function ServiceStrip({ slug, count, title }: { slug: ServiceSlug; count: number
         >
           {Array.from({ length: count }).map((_, i) => (
             <div key={i} className="snap-start shrink-0 w-[320px]">
-              <div className="relative aspect-[4/3] rounded-xl border bg-white overflow-hidden">
+              <button
+                type="button"
+                className="relative aspect-[4/3] rounded-xl border bg-white overflow-hidden w-full"
+                onClick={() => onOpen(i)}
+                aria-label={`${title} ${i + 1} megnyitása`}
+              >
                 <img
                   src={serviceImagePath(slug, i + 1)}
                   alt={`${title} ${i + 1}`}
@@ -736,7 +795,7 @@ function ServiceStrip({ slug, count, title }: { slug: ServiceSlug; count: number
                   decoding="async"
                   className="absolute inset-0 w-full h-full object-cover object-center"
                 />
-              </div>
+              </button>
             </div>
           ))}
         </div>
