@@ -285,6 +285,12 @@ export default function MrWhiteSite() {
   /* Kerek navigációs gombok a lightboxhoz – ugyanaz a vizuális család */
   .btn-circle{ width:2.25rem; height:2.25rem; border-radius:9999px; border:1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.95); display:flex; align-items:center; justify-content:center; font-size:1.25rem; }
   .btn-circle:hover{ background: #fff; }
+
+  /* ServiceStrip: egy soros, reszponzív csempesor */
+  .strip{ --gap:12px; --cols:2; display:flex; gap:var(--gap); overflow-x:auto; scroll-snap-type:x mandatory; }
+  .strip > .tile{ flex:0 0 auto; width: calc((100% - (var(--gap) * (var(--cols) - 1))) / var(--cols)); scroll-snap-align:start; }
+  @media (min-width: 640px){ .strip{ --cols:3; } }
+  @media (min-width: 1024px){ .strip{ --cols:4; } }
 `;
     document.head.appendChild(style);
 
@@ -769,29 +775,60 @@ function ServicePage({ route }: { route: string }) {
 }
 
 function ServiceStrip({ slug, count, title, onOpen }: { slug: ServiceSlug; count: number; title: string; onOpen: (i:number)=>void }) {
+  const id = `strip-${slug}`;
   return (
     <div className="relative">
       <h3 className="text-xl font-semibold mb-3">Munkáink</h3>
 
-      {/* Rács: mobilon 1 oszlop, kis képernyőn 2, közepestől 3; 4:3 arány, gombként kattintható */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-        {Array.from({ length: count }).map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            className="relative aspect-[4/3] rounded-xl border bg-white overflow-hidden w-full"
-            onClick={() => onOpen(i)}
-            aria-label={`${title} ${i + 1} megnyitása`}
-          >
-            <img
-              src={serviceImagePath(slug, i + 1)}
-              alt={`${title} ${i + 1}`}
-              loading="lazy"
-              decoding="async"
-              className="absolute inset-0 w-full h-full object-cover object-center"
-            />
-          </button>
-        ))}
+      <div className="relative">
+        <div className="strip no-scrollbar" id={id} style={{ scrollBehavior: "smooth" }}>
+          {Array.from({ length: count }).map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              className="tile relative aspect-[4/3] rounded-xl border bg-white overflow-hidden"
+              onClick={() => onOpen(i)}
+              aria-label={`${title} ${i + 1} megnyitása`}
+            >
+              <img
+                src={serviceImagePath(slug, i + 1)}
+                alt={`${title} ${i + 1}`}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+              />
+            </button>
+          ))}
+        </div>
+
+        {/* nyilak megmaradnak – a konténer szélességével léptetünk */}
+        <button
+          type="button"
+          aria-label="Előző képek"
+          className="hidden md:flex items-center justify-center absolute left-0 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/90 border shadow"
+          onClick={() => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.scrollBy({ left: -el.clientWidth, behavior: "smooth" });
+          }}
+          title="Előző"
+        >
+          ◀
+        </button>
+
+        <button
+          type="button"
+          aria-label="Következő képek"
+          className="hidden md:flex items-center justify-center absolute right-0 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white/90 border shadow"
+          onClick={() => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.scrollBy({ left: el.clientWidth, behavior: "smooth" });
+          }}
+          title="Következő"
+        >
+          ▶
+        </button>
       </div>
     </div>
   );
