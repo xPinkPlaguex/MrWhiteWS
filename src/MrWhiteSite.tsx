@@ -671,6 +671,7 @@ function MiniCard({ title, desc, img, link }: { title: string; desc: string; img
 
 // Az ár mező törése: az első pár karaktert együtt tartjuk, a gondolatjelnél lehet lágy törés
 function PriceRow({ title, desc, price }: { title: string; desc: string; price: string }) {
+function PriceRow({ title, desc, price }: { title: string; desc: string; price: string }) {
   // Csak az első 7 karakter után engedünk törést
   const BREAK_AT = 7;
   const first = price.slice(0, BREAK_AT).replace(/ /g, "\u00A0"); // nemtörő szóköz
@@ -687,6 +688,7 @@ function PriceRow({ title, desc, price }: { title: string; desc: string; price: 
     </tr>
   );
 }
+
 // Szolgáltatás oldal komponens
 function ServicePage({ route }: { route: string }) {
   const service = useMemo(() => parseServiceFromHash(route), [route]);
