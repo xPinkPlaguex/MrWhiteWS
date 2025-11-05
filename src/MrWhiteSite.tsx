@@ -714,8 +714,8 @@ function ServicePage({ route }: { route: string }) {
   }));
 
   return (
-    <section className="relative min-h-[calc(100vh-120px)] bg-white flex flex-col">
-      <div className="mx-auto max-w-6xl px-4 py-10 flex-1 flex flex-col gap-10 overflow-hidden">
+    <section className="relative min-h-[calc(100vh-120px)] bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-10 flex flex-col gap-10 overflow-hidden">
         <header>
           <h1 className="text-3xl md:text-4xl font-bold">{service.title}</h1>
           <p className="mt-3 max-w-3xl text-base md:text-lg text-zinc-700 leading-relaxed">
@@ -763,11 +763,12 @@ function ServicePage({ route }: { route: string }) {
 function ServiceStrip({ slug, count, title, onOpen }: { slug: ServiceSlug; count: number; title: string; onOpen: (i:number)=>void }) {
   const id = `strip-${slug}`;
   return (
-    <div className="relative">
+    <div className="w-full">
       <h3 className="text-xl font-semibold mb-3">Munkáink</h3>
 
+      {/* egy soros, a SZÜLŐ konténer teljes szélességét használja (ugyanaz, mint a főoldalon) */}
       <div className="relative">
-        <div className="strip no-scrollbar" id={id} style={{ scrollBehavior: "smooth" }}>
+        <div className="strip no-scrollbar w-full" id={id} style={{ scrollBehavior: "smooth" }}>
           {Array.from({ length: count }).map((_, i) => (
             <button
               key={i}
@@ -787,7 +788,7 @@ function ServiceStrip({ slug, count, title, onOpen }: { slug: ServiceSlug; count
           ))}
         </div>
 
-        {/* nyilak megmaradnak – a konténer szélességével léptetünk */}
+        {/* nyilak: a látható szélességgel léptetnek */}
         <button
           type="button"
           aria-label="Előző képek"
