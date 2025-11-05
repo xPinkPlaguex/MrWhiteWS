@@ -286,6 +286,9 @@ export default function MrWhiteSite() {
   .btn-circle{ width:2.25rem; height:2.25rem; border-radius:9999px; border:1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.95); display:flex; align-items:center; justify-content:center; font-size:1.25rem; }
   .btn-circle:hover{ background: #fff; }
 
+  /* Árszöveg kontroll – csak a 7. karakter után törhet */
+  .price-chunk{ white-space: nowrap; }
+
   /* ServiceStrip: egy soros, reszponzív csempesor */
   .strip{ --gap:12px; --cols:2; display:flex; gap:var(--gap); overflow-x:auto; scroll-snap-type:x mandatory; }
   .strip > .tile{ flex:0 0 auto; width: calc((100% - (var(--gap) * (var(--cols) - 1))) / var(--cols)); scroll-snap-align:start; }
@@ -669,20 +672,19 @@ function MiniCard({ title, desc, img, link }: { title: string; desc: string; img
   );
 }
 
-// Az ár mező törése: az első pár karaktert együtt tartjuk, a gondolatjelnél lehet lágy törés
+/* Ártörés – csak a 7. karakter után */
 function PriceRow({ title, desc, price }: { title: string; desc: string; price: string }) {
-  // Csak az első 7 karakter után engedünk törést
   const BREAK_AT = 7;
-  const first = price.slice(0, BREAK_AT).replace(/ /g, "\u00A0"); // nemtörő szóköz
-  const rest = price.slice(BREAK_AT); // utána törhet
+  const first = price.slice(0, BREAK_AT).replace(/ /g, "\u00A0");
+  const rest  = price.slice(BREAK_AT).replace(/ /g, "\u00A0");
   return (
     <tr>
       <td className="p-4 font-medium">{title}</td>
       <td className="p-4 text-zinc-600">{desc}</td>
-      <td className="p-4 whitespace-normal sm:whitespace-nowrap">
-        <span className="inline-block whitespace-nowrap">{first}</span>
+      <td className="p-4 whitespace-normal">
+        <span className="price-chunk">{first}</span>
         <wbr />
-        {rest}
+        <span className="price-chunk">{rest}</span>
       </td>
     </tr>
   );
@@ -715,11 +717,12 @@ function ServicePage({ route }: { route: string }) {
   }));
 
   return (
-    <section className="relative min-h-[calc(100vh-120px)] bg-white flex flex-col">
-      <div className="mx-auto max-w-6xl px-4 py-10 flex-1 flex flex-col gap-10 overflow-hidden">
+    <section className="relative min-h-[calc(100vh-120px)] bg-white">
+      {/* SZÉLESSÉG: ugyanaz, mint a főoldalon */}
+      <div className="mx-auto max-w-6xl px-4 py-10 flex flex-col gap-10 overflow-hidden">
         <header>
           <h1 className="text-3xl md:text-4xl font-bold">{service.title}</h1>
-          <p className="mt-3 max-w-3xl text-base md:text-lg text-zinc-700 leading-relaxed">
+          <p className="mt-3 max-w-2xl text-base md:text-lg text-zinc-700 leading-relaxed">
             {service.description}
           </p>
         </header>
@@ -741,7 +744,7 @@ function ServicePage({ route }: { route: string }) {
           </table>
         </div>
 
-        {/* Egy soros, reszponzív képsor nyilakkal */}
+        {/* Egy soros, reszponzív képsor nyilakkal – a SZÜLŐ teljes szélességén */}
         <ServiceStrip slug={service.slug} count={service.images.count} title={service.title} onOpen={openAt} />
       </div>
 
@@ -764,11 +767,11 @@ function ServicePage({ route }: { route: string }) {
 function ServiceStrip({ slug, count, title, onOpen }: { slug: ServiceSlug; count: number; title: string; onOpen: (i:number)=>void }) {
   const id = `strip-${slug}`;
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <h3 className="text-xl font-semibold mb-3">Munkáink</h3>
 
       <div className="relative">
-        <div className="strip no-scrollbar" id={id} style={{ scrollBehavior: "smooth" }}>
+        <div className="strip no-scrollbar w-full" id={id} style={{ scrollBehavior: "smooth" }}>
           {Array.from({ length: count }).map((_, i) => (
             <button
               key={i}
