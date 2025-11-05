@@ -671,17 +671,18 @@ function MiniCard({ title, desc, img, link }: { title: string; desc: string; img
 
 // Az ár mező törése: az első pár karaktert együtt tartjuk, a gondolatjelnél lehet lágy törés
 function PriceRow({ title, desc, price }: { title: string; desc: string; price: string }) {
-  const MIN_BEFORE_WRAP = 7;
-  const withSoftBreak = price.replace("–", "–\u200B");
-  const first = withSoftBreak.slice(0, MIN_BEFORE_WRAP).replace(/ /g, "\u00A0");
-  const rest = withSoftBreak.slice(MIN_BEFORE_WRAP);
+  // Csak az ELSŐ 7 karakter után engedünk törést
+  const BREAK_AT = 7;
+  const first = price.slice(0, BREAK_AT).replace(/ /g, " ");
+  const rest = price.slice(BREAK_AT).replace(/ /g, " ");
   return (
     <tr>
       <td className="p-4 font-medium">{title}</td>
       <td className="p-4 text-zinc-600">{desc}</td>
-      <td className="p-4 whitespace-normal sm:whitespace-nowrap">
+      <td className="p-4 whitespace-normal">
         <span className="inline-block whitespace-nowrap">{first}</span>
-        {rest}
+        <wbr />
+        <span className="inline-block whitespace-nowrap">{rest}</span>
       </td>
     </tr>
   );
@@ -714,8 +715,8 @@ function ServicePage({ route }: { route: string }) {
   }));
 
   return (
-    <section className="relative min-h-[calc(100vh-120px)] bg-white">
-      <div className="mx-auto max-w-6xl px-4 py-10 flex flex-col gap-10 overflow-hidden">
+    <section className="relative min-h-[calc(100vh-120px)] bg-white flex flex-col">
+      <div className="mx-auto max-w-6xl px-4 py-10 flex-1 flex flex-col gap-10 overflow-hidden">
         <header>
           <h1 className="text-3xl md:text-4xl font-bold">{service.title}</h1>
           <p className="mt-3 max-w-3xl text-base md:text-lg text-zinc-700 leading-relaxed">
@@ -763,12 +764,11 @@ function ServicePage({ route }: { route: string }) {
 function ServiceStrip({ slug, count, title, onOpen }: { slug: ServiceSlug; count: number; title: string; onOpen: (i:number)=>void }) {
   const id = `strip-${slug}`;
   return (
-    <div className="w-full">
+    <div className="relative">
       <h3 className="text-xl font-semibold mb-3">Munkáink</h3>
 
-      {/* egy soros, a SZÜLŐ konténer teljes szélességét használja (ugyanaz, mint a főoldalon) */}
       <div className="relative">
-        <div className="strip no-scrollbar w-full" id={id} style={{ scrollBehavior: "smooth" }}>
+        <div className="strip no-scrollbar" id={id} style={{ scrollBehavior: "smooth" }}>
           {Array.from({ length: count }).map((_, i) => (
             <button
               key={i}
@@ -788,7 +788,7 @@ function ServiceStrip({ slug, count, title, onOpen }: { slug: ServiceSlug; count
           ))}
         </div>
 
-        {/* nyilak: a látható szélességgel léptetnek */}
+        {/* nyilak megmaradnak – a konténer szélességével léptetünk */}
         <button
           type="button"
           aria-label="Előző képek"
