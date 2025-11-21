@@ -379,6 +379,7 @@ export default function MrWhiteSite() {
    ========================= */
 
 // Kezdőlap
+
 function HomeHero() {
   return (
     <section id="home" className="relative h-[calc(100vh-120px)] overflow-auto md:overflow-hidden">
@@ -425,8 +426,7 @@ function HomeHero() {
 
         {/* Gombok / buborékok */}
         <div className="mt-2 pb-3">
-          className="flex flex-wrap items-center justify-center sm:justify-start gap-2 w-full text-xs sm:text-sm"
-            {/* minden buborék egységes magasságban */}
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 w-full text-xs sm:text-sm">
             <a
               href={INSTAGRAM_URL}
               target="_blank"
@@ -454,7 +454,6 @@ function HomeHero() {
               Google értékelés
             </a>
 
-            {/* ÚJ: e-mail másoló gombbal */}
             <div className="inline-flex items-center h-10 md:h-11 px-3 rounded-xl border font-medium bg-white">
               <span className="whitespace-nowrap">festes.burkolat@gmail.com</span>
               <button
@@ -509,6 +508,7 @@ function HomeHero() {
     </section>
   );
 }
+
 
 // Árlista
 function PricingPage() {
