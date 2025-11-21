@@ -425,7 +425,7 @@ function HomeHero() {
 
         {/* Gombok / buborékok */}
         <div className="mt-2 pb-3">
-          <div className="flex flex-wrap items-center gap-2 w-full text-xs sm:text-sm">
+          className="flex flex-wrap items-center justify-center sm:justify-start gap-2 w-full text-xs sm:text-sm"
             {/* minden buborék egységes magasságban */}
             <a
               href={INSTAGRAM_URL}
