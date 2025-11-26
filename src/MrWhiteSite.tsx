@@ -80,7 +80,8 @@ const SERVICE_SPECS: ServiceSpec[] = [
     slug: "szobafestes",
     title: "Szobafestés, tapétázás",
     description:
-      `Nagy gyakorlatunk van nem csak festésben, illetve különböző típusú tapéták ragasztásában, de vállalunk dekor panelek, stukkók, rozetták és egyéb díszítőelemek elhelyezését.`,
+      `Nagy gyakorlatunk van nemcsak festésben, illetve különböző típusú tapéták ragasztásában, vállalunk dekor panelek, stukkók, rozetták és egyéb díszítőelemek elhelyezését is.
+`,
     images: { folder: "szobafestes", count: 8 },
     priceRows: ALL_PRICES.filter(r => ["Szobafestés", "Könnyű és nehéz tapétázás"].includes(r.title)),
   },
@@ -389,9 +390,9 @@ function HomeHero() {
         </h1>
 
         <p className="mt-3 max-w-2xl text-base md:text-xl text-zinc-700">
-          Közel 30 éves tapasztalattal rendelkezünk, melyből több mint egy évtizednyi Németország
-          és Skandinávia területéről származik. Küldetésünk, hogy az ott tanult szemléletet hozzuk
-          Magyarország szívébe, Budapestre és környékére.
+          Közel 30 éves tapasztalattal rendelkezünk, melyből több mint egy évtizednyi Németország és Skandinávia területéről származik. 
+          Küldetésünk, hogy az ott tanult szemléletet hozzuk Magyarországra, Budapestre és környékére.
+          Mottónk, hogy lakásából, házából otthon teremtünk.
         </p>
 
         <div className="mt-6">
