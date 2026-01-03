@@ -6,7 +6,7 @@ const PHONE_DISPLAY = "+36 70 677 41 10";
 const PHONE_LINK = "tel:+36706774110";
 const INSTAGRAM_URL = "https://www.instagram.com/mr.white.renovalas/";
 const FACEBOOK_URL = "https://facebook.com/yourprofile";
-const GOOGLE_REVIEW_URL = "https://g.page/r/your-google-review";
+const GOOGLE_REVIEW_URL = "https://share.google/UPF4BrfnPs3ZwW76l";
 const BEIGE = "#E1DED2";
 
 /**
